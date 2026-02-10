@@ -46,7 +46,6 @@ const iconsMap = {
     "сливки": "static/icons/milk.png",
     "мочалка": "static/icons/sponge.png",
     "тряпки": "static/icons/hand.png",
-    "мыло": "static/icons/soap.png",
     "песок": "static/icons/litter-box.png",
     "порошок": "static/icons/detergent.png",
     "бумага": "static/icons/tissue-box.png",
@@ -130,36 +129,47 @@ function updateList() {
 
     keys.forEach(key => {
         const item = cart[key];
-        const prod = products.find(p => p[0] === key);
-        const icon = prod ? prod[1] : "🛒";
 
-        const btn = document.createElement("button");
-        btn.className = "product-btn";
-        btn.innerHTML = `
+        // ищем продукт в products
+        const prod = products.find(p => p[0] === key);
+
+        // используем PNG из iconsMap, иначе emoji
+        let icon = iconsMap[key] || (prod ? prod[1] : "🛒");
+        icon = icon.endsWith(".png")
+            ? `<img src="${icon}" alt="${key}" style="width:24px;height:24px;">`
+            : icon;
+
+        const btnLower = document.createElement("button"); // нижняя кнопка
+        btnLower.className = "product-btn";
+        btnLower.innerHTML = `
             <div>${icon}</div>
             <div style="font-size:10px;">${key}</div>
             <div class="count">${item.qty >= 2 ? item.qty : ""}</div>
         `;
 
-        // показываем кружок только если qty >= 2
-        const countEl = btn.querySelector(".count");
+        const countEl = btnLower.querySelector(".count");
         countEl.style.display = item.qty >= 2 ? "flex" : "none";
 
         // клик на нижней кнопке уменьшает количество
-        btn.addEventListener("click", () => {
+        btnLower.addEventListener("click", () => {
             cart[key].qty--;
             if (cart[key].qty <= 0) delete cart[key];
+
+            // виброэффект
+            btnLower.classList.add("clicked");
+            setTimeout(() => btnLower.classList.remove("clicked"), 150);
+
             updateTotal();
             updateList();
         });
 
-        cartList.appendChild(btn);
+        cartList.appendChild(btnLower);
     });
 
-    // стили, чтобы кнопки шли в ряд
     cartList.style.display = "flex";
     cartList.style.flexWrap = "wrap";
     cartList.style.justifyContent = "center";
     cartList.style.gap = "8px";
 }
+
 
