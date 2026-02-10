@@ -50,7 +50,7 @@ const iconsMap = {
     "песок": "static/icons/litter-box.png",
     "порошок": "static/icons/detergent.png",
     "бумага": "static/icons/tissue-box.png",
-    "губки": "static/icons/sponge (1).png",
+    "губки": "static/icons/sponge-1.png",
     "мука": "static/icons/flour.png",
     "масло": "static/icons/olive-oil.png",
     "гречка": "static/icons/food.png",
@@ -63,7 +63,7 @@ const iconsMap = {
     "льнянка": "static/icons/bean.png",
     "макарики": "static/icons/pasta.png",
     "унитазка": "static/icons/public-toilet.png",
-    "фейри": "static/icons/cleaning.png"
+    "фейри": "static/icons/cleaning.png",
 };
 
 
