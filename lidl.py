@@ -4,7 +4,7 @@ import os
 
 print("===== Запущена версия бота 1.0 =====")
 TOKEN = "8329451130:AAFUUW8G45LY2mobMo9yK33cnTbEnN38lY8"
-URL = "https://rzabeyda.github.io/Lildl-Go/"
+URL = "https://rzabeyda.github.io/Lidl/"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton("Открыть", url=URL)]]
@@ -16,5 +16,3 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("start", start))
     app.run_polling()
     print("Бот запущен! Версия 1")
-    icon_path = os.path.join("app", "static", "icons", "cottage-cheese.png")
-    print("Полный путь до иконки:", os.path.abspath(icon_path))
