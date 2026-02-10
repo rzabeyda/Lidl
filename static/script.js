@@ -27,7 +27,7 @@ let cart = {};
 
 // Словарь уникальных иконок (PNG или emoji)
 const iconsMap = {
-    "капуста": "static/icons/cabbage.png",   // PNG
+    "капуста": "icons/cabbage.png",   // PNG
     "зелень": "/static/icons/green.png",
     "какао": "/static/icons/cacao.png",
     "хлебцы": "/static/icons/crispbread.png",
