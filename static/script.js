@@ -65,6 +65,12 @@ const iconsMap = {
     "фейри": "static/icons/cleaning.png",
 };
 
+function vibrate() {
+    if (navigator.vibrate) {
+        navigator.vibrate(30);
+    }
+}
+
 
 products.forEach(p => {
     const btn = document.createElement("button");
@@ -86,6 +92,8 @@ products.forEach(p => {
     container.appendChild(btn);
 
     btn.addEventListener("click", () => {
+        vibrate();
+
         const name = btn.dataset.name;
         const price = parseFloat(btn.dataset.price);
 
@@ -106,6 +114,8 @@ products.forEach(p => {
 
 
 totalEl.addEventListener("click", () => {
+    vibrate();
+
     cart = {};
     document.querySelectorAll(".product-btn .count").forEach(c => {
         c.textContent = "";
@@ -152,6 +162,7 @@ function updateList() {
 
         // клик на нижней кнопке уменьшает количество
         btnLower.addEventListener("click", () => {
+            vibrate();
             cart[key].qty--;
             if (cart[key].qty <= 0) delete cart[key];
 
