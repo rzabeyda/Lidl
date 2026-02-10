@@ -66,10 +66,6 @@ const iconsMap = {
     "фейри": "static/icons/cleaning.png"
 };
 
-
-    // добавляй сюда остальные уникальные иконки
-};
-
 products.forEach(p => {
     const btn = document.createElement("button");
     btn.className = "product-btn";
