@@ -7,7 +7,7 @@ if not TOKEN:
     raise ValueError("BOT_TOKEN не найден в переменных окружения")
 
 # Ссылка на веб-шоп
-URL = "https://rzabeyda.github.io/Lidl/"
+URL = "https://rzabeyda.github.io/Lidl/?v=2"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = update.effective_user.first_name

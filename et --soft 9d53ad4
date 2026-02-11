@@ -1,0 +1,37 @@
+[33m438642a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Swipe test
+[33m9d53ad4[m Pics and Greetings
+[33me24d272[m Add main pic3
+[33m65a6565[m Add main pic2
+[33m37b2cd3[m Add main pict
+[33mcf7b306[m синхронизация количество товаров
+[33me6a1cc5[m иконки новые
+[33m0c4c1eb[m Ценики
+[33m97ed9ce[m Token hide
+[33m150772d[m Виброотклик
+[33mba22ec4[m иконки кнопок совпадают
+[33m6c7efb6[m v1.0
+[33m7abf612[m[33m ([m[1;33mtag: [m[1;33mv1.0[m[33m)[m Delete static/icons/erewr.html
+[33m9ed5c5d[m Update lidl.py
+[33m868a539[m Rename sponge (1).png to sponge-1.png
+[33m36c035e[m Update script.js
+[33macb0ccc[m Update index.html
+[33md3b126b[m Update script.js
+[33m0b63254[m Update script.js
+[33m2613f85[m Update script.js
+[33m6f2d5b2[m Update script.js
+[33m3c91679[m Update script.js
+[33ma019a8b[m Update script.js
+[33m77b9474[m Fix icon path for cabbage in iconsMap
+[33macb1e84[m Update path for cabbage icon in iconsMap
+[33md2e0d90[m Update script.js
+[33m87dfbe3[m Fix typo in food item list
+[33me9654b0[m Update index.html
+[33medfb0a5[m Change title from 'LidlGo Web' to 'Lidl'
+[33m3d7d9af[m Update lidl.py
+[33m5a4a8e2[m Create lidl.py
+[33mf5eab70[m Update and rename erewr to erewr.html
+[33m206a010[m Add files via upload
+[33m92caae4[m Create erewr
+[33m3c768ab[m Create style.css
+[33m24acc6d[m Create script.js
+[33m290428d[m Create index.html
