@@ -11,7 +11,7 @@ const products = [
     ["сметана","🫙",1.4],  ["масло","🧈",1.5],    ["молоко","🍶",0.7],
     ["кефир","🍶",0.7],    ["уксус","🍶",1.3],    ["льнянка","🌾",5.0],
     ["сливки","🥛",1.2],   ["ванилин","🍦",0.8],  ["сахар","🍬",0.8],
-    ["мука","🌾",1.25],    ["масло","🌻",1.5],    ["макарики","🍝",0.7],
+    ["мука","🌾",1.25],    ["подсолнух","🌻",2],  ["макарики","🍝",0.7],
     ["гречка","🍲",1.5],   ["рис","🍚",2.5],      ["овсянка","🥣",0.2],
     ["кетчуп","🍅",4.0],   ["хрен","🫚",1.0],     ["соевка","🥢",1.0],
     ["фейри","🧴",1.5],    ["губки","🧽",1.0],    ["унитазка","🚽",2.0],
@@ -51,7 +51,7 @@ const iconsMap = {
     "бумага": "static/icons/tissue-box.png",
     "губки": "static/icons/sponge-1.png",
     "мука": "static/icons/flour.png",
-    "масло": "static/icons/olive-oil.png",
+    "подсолнух": "static/icons/olive-oil.png",
     "гречка": "static/icons/food.png",
     "овсянка": "static/icons/oatmeal.png",
     "дезик": "static/icons/deodorant.png",
@@ -71,6 +71,34 @@ function vibrate() {
     }
 }
 
+function showPriceEffect(btn, price) {
+    const effect = document.createElement("div");
+    effect.textContent = "+" + price.toFixed(2);
+    effect.style.position = "absolute";
+    effect.style.color = "white";
+    effect.style.fontWeight = "bold";
+    effect.style.fontSize = "32px"; // вместо 16px или дефолтного
+    effect.style.left = "50%";
+    effect.style.top = "-20px"; // чуть выше кнопки
+    effect.style.transform = "translateX(-50%)";
+    effect.style.pointerEvents = "none";
+    effect.style.transition = "all 0.8s ease-out";
+    effect.style.opacity = "1";
+
+    // родитель кнопка уже relative
+    btn.appendChild(effect);
+
+    // анимация
+    setTimeout(() => {
+        effect.style.top = "-40px";
+        effect.style.opacity = "0";
+    }, 50);
+
+    // удаляем после анимации
+    setTimeout(() => {
+        btn.removeChild(effect);
+    }, 850);
+}
 
 products.forEach(p => {
     const btn = document.createElement("button");
@@ -103,6 +131,7 @@ products.forEach(p => {
         const countEl = btn.querySelector(".count");
         countEl.textContent = cart[name].qty;
         countEl.style.display = "flex";
+        showPriceEffect(btn, price); // <-- эффект +цена
 
         btn.classList.add("clicked");
         setTimeout(() => btn.classList.remove("clicked"), 150);
