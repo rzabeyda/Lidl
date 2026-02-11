@@ -79,6 +79,21 @@ const iconsMap = {
     "хрен": "static/icons/horseradish.png",
 };
 
+function updateTopButton(name) {
+    const btn = document.querySelector(`.product-btn[data-name="${name}"]`);
+    if (!btn) return;
+
+    const countEl = btn.querySelector(".count");
+    if (cart[name]) {
+        countEl.textContent = cart[name].qty;
+        countEl.style.display = "flex";
+    } else {
+        countEl.textContent = "";
+        countEl.style.display = "none";
+    }
+}
+
+
 function vibrate() {
     if (navigator.vibrate) {
         navigator.vibrate(30);
@@ -208,6 +223,12 @@ function updateList() {
             vibrate();
             cart[key].qty--;
             if (cart[key].qty <= 0) delete cart[key];
+
+            btnLower.querySelector(".count").textContent = cart[key]?.qty || "";
+            btnLower.querySelector(".count").style.display = cart[key]?.qty ? "flex" : "none";
+
+            // синхронизируем верхнюю кнопку
+            updateTopButton(key);
 
             // виброэффект
             btnLower.classList.add("clicked");
