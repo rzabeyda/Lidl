@@ -2,7 +2,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import os
 
-TOKEN = "8329451130:AAFUUW8G45LY2mobMo9yK33cnTbEnN38lY8"
+TOKEN = os.getenv("BOT_TOKEN")
+if not TOKEN:
+    raise ValueError("BOT_TOKEN не найден в переменных окружения")
 URL = "https://rzabeyda.github.io/Lidl/"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
