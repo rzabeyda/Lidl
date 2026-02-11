@@ -156,3 +156,14 @@ btn.addEventListener("click", () => {
 .product-block:hover {
     background: #444; /* подсветка при наведении */
 }
+
+@keyframes jump {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-10px); } /* вверх на 10px */
+    60% { transform: translateY(3px); }   /* немного вниз */
+    100% { transform: translateY(0); }    /* возвращаемся */
+}
+
+.product-btn.jump {
+    animation: jump 0.4s ease-out;
+}
