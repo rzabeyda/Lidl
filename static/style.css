@@ -91,8 +91,6 @@ body {
     transform: scale(1.3);     /* увеличиваем иконку при hover/тапе */
 }
 
-
-
 /* подсветка при наведении */
 .product-btn:hover {
     background: #333;
@@ -130,26 +128,26 @@ body {
 }
 
 #total {
-    font-size: 28px;
-    margin: 10px 0;
-    padding: 10px 20px;
-    background: #28a745;       /* зелёный блок */
+    font-size: 28px;             /* размер текста */
+    margin: 10px 0;              /* отступ сверху/снизу */
+    padding: 10px 0;             /* только вертикальный padding */
+    width: 120px;                /* фиксированная ширина кнопки */
+    background: #28a745;         /* зелёная кнопка */
     color: white;
     border-radius: 12px;
     cursor: pointer;
     user-select: none;
     text-align: center;
-    transition: transform 0.1s, background 0.2s;
+    transition: background 0.2s; /* убрали transform */
 }
-
 #total:hover {
-    background: #3ac162;       /* подсветка при наведении */
+    background: #3ac162;        /* подсветка при наведении */
 }
-
 #total:active {
-    transform: scale(0.95);    /* анимация нажатия */
+    /* убираем transform, чтобы не уменьшалась */
     background: #238a45;
 }
+
 
 #cart-list {
     display: flex;
