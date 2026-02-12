@@ -269,19 +269,21 @@ const closeNotes = document.getElementById("close-notes");
 const saveNotes = document.getElementById("save-notes");
 const notesText = document.getElementById("notes-text");
 
-// Открыть модальное окно
+// Переменная для хранения заметок
+let savedNotes = "";
+
+// Открыть окно
 notesBtn.addEventListener("click", () => {
-    vibrate();
     notesModal.style.display = "flex";
 });
 
-// Закрыть
+// Закрыть окно
 closeNotes.addEventListener("click", () => {
     notesModal.style.display = "none";
 });
 
-// Сохранить текст (пока просто выводим в консоль)
+// Сохранить текст без подтверждения
 saveNotes.addEventListener("click", () => {
-    console.log("Notes:", notesText.value);
-    notesModal.style.display = "none";
+    savedNotes = notesText.value; // сохраняем текст
+    notesModal.style.display = "none"; // закрываем окно
 });
