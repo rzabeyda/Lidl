@@ -22,6 +22,28 @@ const products = [
 
 const container = document.getElementById("buttons-container");
 const totalEl = document.getElementById("total");
+totalEl.textContent = ''; // убираем текст по умолчанию
+
+const euroImg = document.createElement('img');
+euroImg.src = 'static/icons/euro.png'; // путь к твоей иконке
+euroImg.alt = 'EURO';
+euroImg.style.width = '24px';
+euroImg.style.height = '24px';
+
+totalEl.appendChild(euroImg); // вставляем иконку внутрь кнопки
+
+// Обновляем total при изменении корзины
+function updateTotal() {
+    let sum = 0;
+    for (let key in cart) sum += cart[key].qty * cart[key].price;
+
+    if (sum > 0) {
+        totalEl.textContent = sum.toFixed(2) + " €"; // показываем цену
+    } else {
+        totalEl.textContent = ''; // очищаем текст
+        totalEl.appendChild(euroImg); // показываем иконку, если корзина пустая
+    }
+}
 const cartList = document.getElementById("cart-list");
 let cart = {};
 
@@ -263,6 +285,7 @@ img.style.height = iconSize;
 
 resetBtn.appendChild(img);  // вставляем иконку внутрь кнопки
 
+// Кнопка RESET — очищает корзину
 resetBtn.addEventListener("click", () => {
     vibrate();
 
@@ -271,13 +294,34 @@ resetBtn.addEventListener("click", () => {
         c.textContent = "";
         c.style.display = "none";
     });
-    updateTotal();
+
+    updateTotal(); // теперь при пустой корзине вернётся иконка
     updateList();
 });
 
+// Обновляем total при изменении корзины
+function updateTotal() {
+    let sum = 0;
+    for (let key in cart) sum += cart[key].qty * cart[key].price;
+
+    // очищаем содержимое кнопки перед вставкой
+    totalEl.textContent = '';
+
+    if (sum > 0) {
+        totalEl.textContent = sum.toFixed(2) + " €"; // показываем цену
+    } else {
+        const euroImg = document.createElement('img');
+        euroImg.src = 'static/icons/euro.png';
+        euroImg.alt = 'EURO';
+        euroImg.style.width = '24px';
+        euroImg.style.height = '24px';
+        totalEl.appendChild(euroImg); // показываем иконку, если корзина пустая
+    }
+}
+
+
 
 // Кнопка NOTES — пока просто alert
-// Кнопка NOTES — жёлтая, только иконка
 const notesBtn = document.getElementById("notes-btn");
 notesBtn.textContent = ''; // убираем текст кнопки полностью
 
