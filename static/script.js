@@ -264,10 +264,24 @@ resetBtn.addEventListener("click", () => {
 
 // Кнопка NOTES — пока просто alert
 const notesBtn = document.getElementById("notes-btn");
+const notesModal = document.getElementById("notes-modal");
+const closeNotes = document.getElementById("close-notes");
+const saveNotes = document.getElementById("save-notes");
+const notesText = document.getElementById("notes-text");
+
+// Открыть модальное окно
 notesBtn.addEventListener("click", () => {
     vibrate();
-    alert("Здесь можно писать заметки или инструкции 📋");
+    notesModal.style.display = "flex";
 });
 
-// Кнопка TOTAL уже есть, её функционал не меняем
+// Закрыть
+closeNotes.addEventListener("click", () => {
+    notesModal.style.display = "none";
+});
 
+// Сохранить текст (пока просто выводим в консоль)
+saveNotes.addEventListener("click", () => {
+    console.log("Notes:", notesText.value);
+    notesModal.style.display = "none";
+});

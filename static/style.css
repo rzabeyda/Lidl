@@ -234,3 +234,33 @@ body {
 /* Анимация ховер и клик */
 .top-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
 .top-btn:active { transform: scale(0.95); filter: brightness(0.9); }
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-content textarea {
+    width: 300px;
+    height: 120px;
+    resize: none;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+}
