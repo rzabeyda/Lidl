@@ -24,13 +24,32 @@ const container = document.getElementById("buttons-container");
 const totalEl = document.getElementById("total");
 totalEl.textContent = ''; // убираем текст по умолчанию
 
+// создаём один раз
 const euroImg = document.createElement('img');
-euroImg.src = 'static/icons/euro.png'; // путь к твоей иконке
+euroImg.src = 'static/icons/euro.png';
 euroImg.alt = 'EURO';
 euroImg.style.width = '24px';
 euroImg.style.height = '24px';
 
-totalEl.appendChild(euroImg); // вставляем иконку внутрь кнопки
+// вставляем иконку изначально
+totalEl.textContent = '';
+totalEl.appendChild(euroImg);
+
+function updateTotal() {
+    let sum = 0;
+    for (let key in cart) sum += cart[key].qty * cart[key].price;
+
+    // очищаем текст
+    totalEl.textContent = '';
+
+    if (sum > 0) {
+        totalEl.textContent = sum.toFixed(2) + " €"; // показываем цену
+    } else {
+        // возвращаем единственную иконку
+        totalEl.appendChild(euroImg);
+    }
+}
+
 
 // Обновляем total при изменении корзины
 function updateTotal() {
@@ -125,32 +144,37 @@ function vibrate() {
 
 function showPriceEffect(btn, price) {
     const effect = document.createElement("div");
+    effect.className = "price-effect";
     effect.textContent = "+" + price.toFixed(2);
-    effect.style.position = "absolute";
-    effect.style.color = "white";
-    effect.style.fontWeight = "bold";
-    effect.style.fontSize = "32px"; // вместо 16px или дефолтного
-    effect.style.left = "50%";
-    effect.style.top = "-20px"; // чуть выше кнопки
+
+    // позиционируем относительно окна, а не кнопки
+    const rect = btn.getBoundingClientRect();
+    effect.style.position = "fixed";
+    effect.style.left = rect.left + rect.width / 2 + "px";
+    effect.style.top = rect.top - 20 + "px"; // чуть выше кнопки
     effect.style.transform = "translateX(-50%)";
     effect.style.pointerEvents = "none";
+    effect.style.color = "white";
+    effect.style.fontWeight = "bold";
+    effect.style.fontSize = "32px";
     effect.style.transition = "all 0.8s ease-out";
     effect.style.opacity = "1";
+    effect.style.zIndex = "999"; // поверх всего
 
-    // родитель кнопка уже relative
-    btn.appendChild(effect);
+    document.body.appendChild(effect); // добавляем в body
 
     // анимация
     setTimeout(() => {
-        effect.style.top = "-40px";
+        effect.style.top = rect.top - 40 + "px";
         effect.style.opacity = "0";
     }, 50);
 
     // удаляем после анимации
     setTimeout(() => {
-        btn.removeChild(effect);
+        document.body.removeChild(effect);
     }, 850);
 }
+
 
 // --- ВЕРХНИЙ БЛОК: генерация кнопок продуктов ---
 products.forEach(p => {

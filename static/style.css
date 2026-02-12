@@ -21,15 +21,6 @@ body {
     align-items: center;
 }
 
-.top-image {
-    width: 95%;
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin: 0 auto 10px auto;   /* центрируем картинку */
-    display: block;
-}
-
 .container {
     width: 100%;
     max-width: 375px;
@@ -40,18 +31,38 @@ body {
     box-sizing: border-box;
 }
 
+/* контейнер кнопок */
 #buttons-container {
-  display: grid;
-  grid-template-columns: repeat(5, 60px);
-  grid-auto-rows: 60px;
-  gap: 8px;
-  width: max-content;
-  height: calc(60px * 3 + 8px * 2);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  padding-right: 4px;
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    grid-auto-rows: 60px;
+    gap: 8px;
+    width: max-content;
+    height: calc(60px * 3 + 8px * 2);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding-right: 4px;
+    padding-left: 4px; /* <-- здесь должно быть внутри селектора */
+
+    position: relative;
+    z-index: 10; /* выше картинки, чтобы анимации price-effect были поверх */
+}
+
+/* верхняя картинка */
+.top-image {
+    width: 95%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0 auto 10px auto;
+    display: block;
+
+    position: relative;
+    z-index: 5; /* картинка ниже анимации цен */
+}
+
 
   /* сдвигаем вправо */
   padding-left: 4px; /* увеличь/уменьшай по вкусу */
@@ -62,6 +73,12 @@ body {
 #buttons-container::-webkit-scrollbar {
   display: none;
 }
+
+.product-btn div.price-effect {
+    position: absolute;
+    z-index: 20; /* поверх всего */
+}
+
 
 .product-btn {
     height: 60px;
