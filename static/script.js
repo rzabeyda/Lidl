@@ -247,3 +247,27 @@ function updateList() {
     cartList.style.justifyContent = "center";
     cartList.style.gap = "8px";
 }
+
+// Кнопка RESET — очищает корзину
+const resetBtn = document.getElementById("reset-btn");
+resetBtn.addEventListener("click", () => {
+    vibrate();
+
+    cart = {};
+    document.querySelectorAll(".product-btn .count").forEach(c => {
+        c.textContent = "";
+        c.style.display = "none";
+    });
+    updateTotal();
+    updateList();
+});
+
+// Кнопка NOTES — пока просто alert
+const notesBtn = document.getElementById("notes-btn");
+notesBtn.addEventListener("click", () => {
+    vibrate();
+    alert("Здесь можно писать заметки или инструкции 📋");
+});
+
+// Кнопка TOTAL уже есть, её функционал не меняем
+

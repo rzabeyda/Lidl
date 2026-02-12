@@ -129,28 +129,6 @@ body {
     justify-content: center;
 }
 
-#total {
-    font-size: 28px;             /* размер текста */
-    margin: 10px 0;              /* отступ сверху/снизу */
-    padding: 10px 0;             /* только вертикальный padding */
-    width: 120px;                /* фиксированная ширина кнопки */
-    background: #28a745;         /* зелёная кнопка */
-    color: white;
-    border-radius: 12px;
-    cursor: pointer;
-    user-select: none;
-    text-align: center;
-    transition: background 0.2s; /* убрали transform */
-}
-#total:hover {
-    background: #3ac162;        /* подсветка при наведении */
-}
-#total:active {
-    /* убираем transform, чтобы не уменьшалась */
-    background: #238a45;
-}
-
-
 #cart-list {
     display: flex;
     flex-wrap: wrap;
@@ -218,3 +196,41 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+/* Ряд трёх кнопок под продуктами */
+#top-buttons-row {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    margin: 10px auto;
+    gap: 0;
+}
+
+/* Общий стиль для всех трёх кнопок */
+.top-btn {
+    width: 31.66%;        /* 95% / 3 = ~31.66% */
+    height: 50px;
+    color: white;         /* текст белый для всех */
+    font-weight: bold;
+    font-size: 16px;      /* одинаковый размер шрифта для всех */
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.3s;
+}
+
+/* Цвета кнопок */
+.red-btn { background: #dc3545; }
+.green-btn {
+    background: #28a745;
+    font-size: 18px;
+}
+.yellow-btn { background: #ffc107; color: white; } /* теперь белый текст вместо чёрного */
+
+/* Анимация ховер и клик */
+.top-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+.top-btn:active { transform: scale(0.95); filter: brightness(0.9); }
