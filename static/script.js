@@ -129,14 +129,14 @@ function showPriceEffect(btn, price) {
     }, 850);
 }
 
+// --- ВЕРХНИЙ БЛОК: генерация кнопок продуктов ---
 products.forEach(p => {
     const btn = document.createElement("button");
     btn.className = "product-btn";
     btn.dataset.name = p[0];
     btn.dataset.price = p[2];
 
-    // проверяем: если значение в iconsMap — это .png, вставляем <img>, иначе — emoji
-    const icon = iconsMap[p[0]] || p[1]; // если не задано, берём дефолтное emoji
+    const icon = iconsMap[p[0]] || p[1];
     const emojiOrImg = icon.endsWith(".png")
         ? `<img src="${icon}" alt="${p[0]}" style="width:24px;height:24px;">`
         : icon;
@@ -150,7 +150,6 @@ products.forEach(p => {
 
     btn.addEventListener("click", () => {
         vibrate();
-
         const name = btn.dataset.name;
         const price = parseFloat(btn.dataset.price);
 
@@ -160,7 +159,7 @@ products.forEach(p => {
         const countEl = btn.querySelector(".count");
         countEl.textContent = cart[name].qty;
         countEl.style.display = "flex";
-        showPriceEffect(btn, price); // <-- эффект +цена
+        showPriceEffect(btn, price);
 
         btn.classList.add("clicked");
         setTimeout(() => btn.classList.remove("clicked"), 150);
@@ -169,6 +168,7 @@ products.forEach(p => {
         updateList();
     });
 });
+
 
 
 totalEl.addEventListener("click", () => {

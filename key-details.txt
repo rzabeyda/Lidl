@@ -1,0 +1,6 @@
+Key-Type: RSA
+Key-Length: 4096
+Name-Real: Roman
+Name-Email: rzabeyda@gmail.com
+Expire-Date: 0
+%commit
