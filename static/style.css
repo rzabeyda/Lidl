@@ -309,3 +309,13 @@ body {
     75% { transform: translateY(-5px); box-shadow: 0 0 10px rgba(255,255,0,0.5); }
     100% { transform: translateY(0); box-shadow: 0 0 0px rgba(255,255,0,0); }
 }
+
+#total {
+    font-size: 20px;       /* размер цифр */
+    font-weight: bold;     /* жирность */
+    color: white;          /* цвет цифр */
+    display: flex;         /* чтобы иконка и цифры красиво выравнивались */
+    align-items: center;
+    justify-content: center;
+    gap: 4px;              /* расстояние между иконкой и цифрой */
+}

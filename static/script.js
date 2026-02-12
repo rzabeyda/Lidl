@@ -156,7 +156,7 @@ function showPriceEffect(btn, price) {
     effect.style.pointerEvents = "none";
     effect.style.color = "white";
     effect.style.fontWeight = "bold";
-    effect.style.fontSize = "32px";
+    effect.style.fontSize = "16px";
     effect.style.transition = "all 0.8s ease-out";
     effect.style.opacity = "1";
     effect.style.zIndex = "999"; // поверх всего
@@ -309,8 +309,8 @@ resetBtn.textContent = ''; // убираем текст кнопки полно�
 const img = document.createElement('img');
 img.src = 'static/icons/bin.png';  // путь к твоей иконке
 img.alt = 'BIN';
-img.style.width = iconSize;
-img.style.height = iconSize;
+img.style.width = '28px';
+img.style.height = '28px';
 
 resetBtn.appendChild(img);  // вставляем иконку внутрь кнопки
 
