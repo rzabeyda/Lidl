@@ -1,6 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, InputFile
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import os
+from telegram import WebAppInfo
 
 TOKEN = os.getenv("BOT_TOKEN")
 if not TOKEN:
@@ -13,7 +14,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = update.effective_user.first_name
     text = f"Привет, {user_name} 🤗"
 
-    keyboard = [[InlineKeyboardButton("Зашопиться 🛍️", url=URL)]]
+    keyboard = [[
+        InlineKeyboardButton(
+            "Зашопиться 🛍️",
+            web_app=WebAppInfo(url=URL)
+        )
+    ]]
+
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     # Отправляем картинку + текст + кнопку

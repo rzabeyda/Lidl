@@ -193,24 +193,27 @@ function updateList() {
     cartList.innerHTML = ""; // очищаем
 
     const keys = Object.keys(cart);
-    if(keys.length === 0) return; // ничего не показываем
+    if (keys.length === 0) return;
 
     keys.forEach(key => {
         const item = cart[key];
-
-        // ищем продукт в products
         const prod = products.find(p => p[0] === key);
-
-        // используем PNG из iconsMap, иначе emoji
         let icon = iconsMap[key] || (prod ? prod[1] : "🛒");
-        icon = icon.endsWith(".png")
+        const emojiOrImg = icon.endsWith(".png")
             ? `<img src="${icon}" alt="${key}" style="width:24px;height:24px;">`
             : icon;
 
-        const btnLower = document.createElement("button"); // нижняя кнопка
-        btnLower.className = "product-btn";
+        const btnLower = document.createElement("button");
+        btnLower.className = "product-btn"; // та же кнопка
+        btnLower.dataset.name = key;
+        btnLower.dataset.price = item.price;
+
+        // фиксируем размер как у верхних
+        btnLower.style.flex = "0 0 60px";
+        btnLower.style.height = "60px";
+
         btnLower.innerHTML = `
-            <div>${icon}</div>
+            <div>${emojiOrImg}</div>
             <div style="font-size:10px;">${key}</div>
             <div class="count">${item.qty >= 2 ? item.qty : ""}</div>
         `;
@@ -218,19 +221,17 @@ function updateList() {
         const countEl = btnLower.querySelector(".count");
         countEl.style.display = item.qty >= 2 ? "flex" : "none";
 
-        // клик на нижней кнопке уменьшает количество
         btnLower.addEventListener("click", () => {
             vibrate();
             cart[key].qty--;
             if (cart[key].qty <= 0) delete cart[key];
 
-            btnLower.querySelector(".count").textContent = cart[key]?.qty || "";
-            btnLower.querySelector(".count").style.display = cart[key]?.qty ? "flex" : "none";
+            countEl.textContent = cart[key]?.qty || "";
+            countEl.style.display = cart[key]?.qty ? "flex" : "none";
 
-            // синхронизируем верхнюю кнопку
             updateTopButton(key);
 
-            // виброэффект
+            // анимация клика
             btnLower.classList.add("clicked");
             setTimeout(() => btnLower.classList.remove("clicked"), 150);
 
@@ -246,5 +247,3 @@ function updateList() {
     cartList.style.justifyContent = "center";
     cartList.style.gap = "8px";
 }
-
-
