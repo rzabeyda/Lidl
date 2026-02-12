@@ -194,17 +194,22 @@ products.forEach(p => {
 
 
 
+// Магическая кнопка на зелёной кнопке
 totalEl.addEventListener("click", () => {
     vibrate();
 
-    cart = {};
-    document.querySelectorAll(".product-btn .count").forEach(c => {
-        c.textContent = "";
-        c.style.display = "none";
+    // Если корзина пуста, просто мигает и прыгает
+    const productButtons = document.querySelectorAll(".product-btn");
+    productButtons.forEach(btn => {
+        btn.classList.add("magic"); // добавляем класс
     });
-    updateTotal();
-    updateList();
+
+    // Убираем класс через 1 секунду
+    setTimeout(() => {
+        productButtons.forEach(btn => btn.classList.remove("magic"));
+    }, 1000);
 });
+
 
 function updateTotal() {
     let sum = 0;

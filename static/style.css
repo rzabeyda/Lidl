@@ -280,3 +280,15 @@ body {
 
 #save-notes { background: #28a745; color: white; }
 #close-notes { background: #dc3545; color: white; }
+
+.product-btn.magic {
+    animation: jumpGlow 0.8s ease forwards;
+}
+
+@keyframes jumpGlow {
+    0% { transform: translateY(0); box-shadow: 0 0 0px rgba(255,255,0,0); }
+    25% { transform: translateY(-10px); box-shadow: 0 0 15px rgba(255,255,0,0.8); }
+    50% { transform: translateY(0); box-shadow: 0 0 15px rgba(255,255,0,0.8); }
+    75% { transform: translateY(-5px); box-shadow: 0 0 10px rgba(255,255,0,0.5); }
+    100% { transform: translateY(0); box-shadow: 0 0 0px rgba(255,255,0,0); }
+}
