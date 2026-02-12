@@ -25,6 +25,7 @@ const totalEl = document.getElementById("total");
 const cartList = document.getElementById("cart-list");
 let cart = {};
 
+
 // Словарь уникальных иконок (PNG или emoji)
 const iconsMap = {
     "капуста": "static/icons/cabbage.png",
@@ -248,8 +249,20 @@ function updateList() {
     cartList.style.gap = "8px";
 }
 
-// Кнопка RESET — очищает корзину
+// Кнопка RESET — красная, только иконка
 const resetBtn = document.getElementById("reset-btn");
+const iconSize = '24px';
+
+resetBtn.textContent = ''; // убираем текст кнопки полностью
+
+const img = document.createElement('img');
+img.src = 'static/icons/bin.png';  // путь к твоей иконке
+img.alt = 'BIN';
+img.style.width = iconSize;
+img.style.height = iconSize;
+
+resetBtn.appendChild(img);  // вставляем иконку внутрь кнопки
+
 resetBtn.addEventListener("click", () => {
     vibrate();
 
@@ -262,8 +275,26 @@ resetBtn.addEventListener("click", () => {
     updateList();
 });
 
+
 // Кнопка NOTES — пока просто alert
+// Кнопка NOTES — жёлтая, только иконка
 const notesBtn = document.getElementById("notes-btn");
+notesBtn.textContent = ''; // убираем текст кнопки полностью
+
+const noteImg = document.createElement('img');
+noteImg.src = 'static/icons/note.png';  // путь к твоей иконке
+noteImg.alt = 'NOTE';
+noteImg.style.width = '24px';
+noteImg.style.height = '24px';
+
+notesBtn.appendChild(noteImg);  // вставляем иконку внутрь кнопки
+
+// Событие открытия модального окна остаётся прежним
+notesBtn.addEventListener("click", () => {
+    vibrate();
+    notesModal.style.display = "flex";
+});
+
 const notesModal = document.getElementById("notes-modal");
 const closeNotes = document.getElementById("close-notes");
 const saveNotes = document.getElementById("save-notes");
