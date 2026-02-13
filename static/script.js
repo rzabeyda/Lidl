@@ -368,10 +368,19 @@ notesBtn.addEventListener("click", () => {
     notesModal.style.display = "flex";
 });
 
+// модальные элементы
 const notesModal = document.getElementById("notes-modal");
 const closeNotes = document.getElementById("close-notes");
 const saveNotes = document.getElementById("save-notes");
 const notesText = document.getElementById("notes-text");
+
+// новая кнопка Очистить
+const clearNotes = document.getElementById("clear-notes");
+clearNotes.addEventListener("click", () => {
+    notesText.value = ""; // очищаем текст
+    notesText.focus();    // ставим курсор
+});
+
 
 // Переменная для хранения заметок
 let savedNotes = "";
