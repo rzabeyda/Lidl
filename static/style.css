@@ -50,18 +50,18 @@ body {
     z-index: 10; /* выше картинки, чтобы анимации price-effect были поверх */
 }
 
-/* верхняя картинка */
 .top-image {
     width: 95%;
-    max-height: 150px;
+    height: 150px;
     object-fit: cover;
+    object-position: center 20%;  /* ← вот тут регулируем */
     border-radius: 12px;
     margin: 0 auto 10px auto;
     display: block;
-
     position: relative;
-    z-index: 5; /* картинка ниже анимации цен */
+    z-index: 5;
 }
+
 
 
   /* сдвигаем вправо */
@@ -318,4 +318,14 @@ body {
     align-items: center;
     justify-content: center;
     gap: 4px;              /* расстояние между иконкой и цифрой */
+}
+
+.yellow-btn.active-note {
+    animation: noteGlow 1s infinite;
+}
+
+@keyframes noteGlow {
+    0% { box-shadow: 0 0 0px rgba(255,255,0,0); }
+    50% { box-shadow: 0 0 20px rgba(255,255,0,1); }
+    100% { box-shadow: 0 0 0px rgba(255,255,0,0); }
 }

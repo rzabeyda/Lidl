@@ -24,7 +24,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     # Отправляем картинку + текст + кнопку
-    with open("lidl.png", "rb") as f:  # путь к твоей картинке
+    with open("duck.jpg", "rb") as f:  # путь к твоей картинке
         await update.message.reply_photo(photo=InputFile(f), caption=text, reply_markup=reply_markup)
 
 if __name__ == "__main__":

@@ -376,6 +376,19 @@ const notesText = document.getElementById("notes-text");
 // Переменная для хранения заметок
 let savedNotes = "";
 
+function updateNotesIndicator() {
+    console.log("savedNotes:", savedNotes);
+
+    if (savedNotes && savedNotes.trim().length > 0) {
+        notesBtn.classList.add("active-note");
+        console.log("Добавили класс");
+    } else {
+        notesBtn.classList.remove("active-note");
+        console.log("Убрали класс");
+    }
+}
+
+
 // Открыть окно
 notesBtn.addEventListener("click", () => {
     notesModal.style.display = "flex";
@@ -388,6 +401,7 @@ closeNotes.addEventListener("click", () => {
 
 // Сохранить текст без подтверждения
 saveNotes.addEventListener("click", () => {
-    savedNotes = notesText.value; // сохраняем текст
-    notesModal.style.display = "none"; // закрываем окно
+    savedNotes = notesText.value;
+    notesModal.style.display = "none";
+    updateNotesIndicator();
 });
