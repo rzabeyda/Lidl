@@ -23,9 +23,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Отправляем картинку + текст + кнопку
-    with open("duck.jpg", "rb") as f:  # путь к твоей картинке
-        await update.message.reply_photo(photo=InputFile(f), caption=text, reply_markup=reply_markup)
+    # Отправляем картинку + текст + кнопку, сбрасываем кэш Telegram через filename
+    with open("duck1.jpg", "rb") as f:  # путь к твоей картинке
+        await update.message.reply_photo(
+            photo=InputFile("duck1.jpg", filename="duck_fresh.jpg"),
+            caption=text,
+            reply_markup=reply_markup
+        )
+
 
 if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
