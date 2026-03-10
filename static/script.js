@@ -24,7 +24,6 @@ const container = document.getElementById("buttons-container");
 const totalEl = document.getElementById("total");
 const cartList = document.getElementById("cart-list");
 
-// Словарь уникальных иконок
 const iconsMap = {
     "капуста": "static/icons/cabbage.png",
     "зелень": "static/icons/green1.png",
@@ -81,10 +80,29 @@ const iconsMap = {
 // ───────────────────────────────────────────────
 // КОРЗИНА: загружаем из localStorage при старте
 // ───────────────────────────────────────────────
-let cart = JSON.parse(localStorage.getItem("lidl_cart") || "{}");
+let cart = {};
+try {
+    cart = JSON.parse(localStorage.getItem("lidl_cart") || "{}");
+} catch(e) {
+    cart = {};
+}
 
 function saveCart() {
-    localStorage.setItem("lidl_cart", JSON.stringify(cart));
+    try {
+        localStorage.setItem("lidl_cart", JSON.stringify(cart));
+    } catch(e) {}
+}
+
+// Сохраняем при закрытии / сворачивании / уходе со страницы
+window.addEventListener("beforeunload", () => saveCart());
+window.addEventListener("pagehide", () => saveCart());
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") saveCart();
+});
+
+// Для Telegram WebApp
+if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.onEvent("viewportChanged", () => saveCart());
 }
 
 // ───────────────────────────────────────────────
@@ -146,7 +164,7 @@ function updateList() {
             cart[key].qty--;
             if (cart[key].qty <= 0) delete cart[key];
 
-            saveCart(); // ← сохраняем
+            saveCart();
 
             countEl.textContent = cart[key]?.qty || "";
             countEl.style.display = cart[key]?.qty ? "flex" : "none";
@@ -254,7 +272,7 @@ products.forEach(p => {
         cart[name] = cart[name] || { qty: 0, price: price };
         cart[name].qty++;
 
-        saveCart(); // ← сохраняем
+        saveCart();
 
         const countEl = btn.querySelector(".count");
         countEl.textContent = cart[name].qty;
@@ -270,7 +288,7 @@ products.forEach(p => {
 });
 
 // ───────────────────────────────────────────────
-// ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ КНОПОК ИЗ КОРЗИНЫ
+// ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ КНОПОК ПРИ ЗАГРУЗКЕ
 // ───────────────────────────────────────────────
 Object.keys(cart).forEach(name => {
     const btn = document.querySelector(`.product-btn[data-name="${name}"]`);
@@ -311,7 +329,7 @@ resetBtn.appendChild(binImg);
 resetBtn.addEventListener("click", () => {
     vibrate();
     cart = {};
-    saveCart(); // ← сохраняем пустую корзину
+    saveCart();
 
     document.querySelectorAll(".product-btn .count").forEach(c => {
         c.textContent = "";
@@ -342,7 +360,10 @@ const notesText = document.getElementById("notes-text");
 const clearNotes = document.getElementById("clear-notes");
 
 // Загружаем заметки из localStorage
-let savedNotes = localStorage.getItem("lidl_notes") || "";
+let savedNotes = "";
+try {
+    savedNotes = localStorage.getItem("lidl_notes") || "";
+} catch(e) {}
 notesText.value = savedNotes;
 updateNotesIndicator();
 
@@ -365,7 +386,9 @@ closeNotes.addEventListener("click", () => {
 
 saveNotes.addEventListener("click", () => {
     savedNotes = notesText.value;
-    localStorage.setItem("lidl_notes", savedNotes); // ← сохраняем заметки
+    try {
+        localStorage.setItem("lidl_notes", savedNotes);
+    } catch(e) {}
     notesModal.style.display = "none";
     updateNotesIndicator();
 });
