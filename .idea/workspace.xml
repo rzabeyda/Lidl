@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74d22f3f-7517-4a75-a4ea-141b2c3e76e1" name="Changes" comment="" />
+    <list default="true" id="74d22f3f-7517-4a75-a4ea-141b2c3e76e1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lidl.py" beforeDir="false" afterPath="$PROJECT_DIR$/lidl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videos/apple.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/videos/carrot.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/videos/cucumber.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/videos/lemon.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/videos/potato.mp4" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,6 +59,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Lidl&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.grazie&quot;
   }
 }</component>
