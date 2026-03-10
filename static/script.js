@@ -22,52 +22,9 @@ const products = [
 
 const container = document.getElementById("buttons-container");
 const totalEl = document.getElementById("total");
-totalEl.textContent = ''; // убираем текст по умолчанию
-
-// создаём один раз
-const euroImg = document.createElement('img');
-euroImg.src = 'static/icons/euro.png';
-euroImg.alt = 'EURO';
-euroImg.style.width = '24px';
-euroImg.style.height = '24px';
-
-// вставляем иконку изначально
-totalEl.textContent = '';
-totalEl.appendChild(euroImg);
-
-function updateTotal() {
-    let sum = 0;
-    for (let key in cart) sum += cart[key].qty * cart[key].price;
-
-    // очищаем текст
-    totalEl.textContent = '';
-
-    if (sum > 0) {
-        totalEl.textContent = sum.toFixed(2) + " €"; // показываем цену
-    } else {
-        // возвращаем единственную иконку
-        totalEl.appendChild(euroImg);
-    }
-}
-
-
-// Обновляем total при изменении корзины
-function updateTotal() {
-    let sum = 0;
-    for (let key in cart) sum += cart[key].qty * cart[key].price;
-
-    if (sum > 0) {
-        totalEl.textContent = sum.toFixed(2) + " €"; // показываем цену
-    } else {
-        totalEl.textContent = ''; // очищаем текст
-        totalEl.appendChild(euroImg); // показываем иконку, если корзина пустая
-    }
-}
 const cartList = document.getElementById("cart-list");
-let cart = {};
 
-
-// Словарь уникальных иконок (PNG или emoji)
+// Словарь уникальных иконок
 const iconsMap = {
     "капуста": "static/icons/cabbage.png",
     "зелень": "static/icons/green1.png",
@@ -121,10 +78,103 @@ const iconsMap = {
     "хрен": "static/icons/horseradish.png",
 };
 
+// ───────────────────────────────────────────────
+// КОРЗИНА: загружаем из localStorage при старте
+// ───────────────────────────────────────────────
+let cart = JSON.parse(localStorage.getItem("lidl_cart") || "{}");
+
+function saveCart() {
+    localStorage.setItem("lidl_cart", JSON.stringify(cart));
+}
+
+// ───────────────────────────────────────────────
+// TOTAL
+// ───────────────────────────────────────────────
+function updateTotal() {
+    let sum = 0;
+    for (let key in cart) sum += cart[key].qty * cart[key].price;
+
+    totalEl.textContent = '';
+
+    if (sum > 0) {
+        totalEl.textContent = sum.toFixed(2) + " €";
+    } else {
+        const euroImg = document.createElement('img');
+        euroImg.src = 'static/icons/euro.png';
+        euroImg.alt = 'EURO';
+        euroImg.style.width = '24px';
+        euroImg.style.height = '24px';
+        totalEl.appendChild(euroImg);
+    }
+}
+
+// ───────────────────────────────────────────────
+// СПИСОК КОРЗИНЫ
+// ───────────────────────────────────────────────
+function updateList() {
+    cartList.innerHTML = "";
+
+    const keys = Object.keys(cart);
+    if (keys.length === 0) return;
+
+    keys.forEach(key => {
+        const item = cart[key];
+        const prod = products.find(p => p[0] === key);
+        let icon = iconsMap[key] || (prod ? prod[1] : "🛒");
+        const emojiOrImg = icon.endsWith(".png")
+            ? `<img src="${icon}" alt="${key}" style="width:24px;height:24px;">`
+            : icon;
+
+        const btnLower = document.createElement("button");
+        btnLower.className = "product-btn";
+        btnLower.dataset.name = key;
+        btnLower.dataset.price = item.price;
+        btnLower.style.flex = "0 0 60px";
+        btnLower.style.height = "60px";
+
+        btnLower.innerHTML = `
+            <div>${emojiOrImg}</div>
+            <div style="font-size:10px;">${key}</div>
+            <div class="count">${item.qty >= 2 ? item.qty : ""}</div>
+        `;
+
+        const countEl = btnLower.querySelector(".count");
+        countEl.style.display = item.qty >= 2 ? "flex" : "none";
+
+        btnLower.addEventListener("click", () => {
+            vibrate();
+            cart[key].qty--;
+            if (cart[key].qty <= 0) delete cart[key];
+
+            saveCart(); // ← сохраняем
+
+            countEl.textContent = cart[key]?.qty || "";
+            countEl.style.display = cart[key]?.qty ? "flex" : "none";
+
+            updateTopButton(key);
+
+            btnLower.classList.add("clicked");
+            setTimeout(() => btnLower.classList.remove("clicked"), 150);
+
+            updateTotal();
+            updateList();
+        });
+
+        cartList.appendChild(btnLower);
+    });
+
+    cartList.style.display = "flex";
+    cartList.style.flexWrap = "wrap";
+    cartList.style.justifyContent = "center";
+    cartList.style.gap = "8px";
+}
+
+// ───────────────────────────────────────────────
+// ОБНОВИТЬ СЧЁТЧИК НА ВЕРХНЕЙ КНОПКЕ
+// ───────────────────────────────────────────────
 function updateTopButton(name) {
     const btn = document.querySelector(`.product-btn[data-name="${name}"]`);
     if (!btn) return;
-
     const countEl = btn.querySelector(".count");
     if (cart[name]) {
         countEl.textContent = cart[name].qty;
@@ -135,23 +185,25 @@ function updateTopButton(name) {
     }
 }
 
-
+// ───────────────────────────────────────────────
+// ВИБРАЦИЯ
+// ───────────────────────────────────────────────
 function vibrate() {
-    if (navigator.vibrate) {
-        navigator.vibrate(30);
-    }
+    if (navigator.vibrate) navigator.vibrate(30);
 }
 
+// ───────────────────────────────────────────────
+// АНИМАЦИЯ ЦЕНЫ
+// ───────────────────────────────────────────────
 function showPriceEffect(btn, price) {
     const effect = document.createElement("div");
     effect.className = "price-effect";
     effect.textContent = "+" + price.toFixed(2);
 
-    // позиционируем относительно окна, а не кнопки
     const rect = btn.getBoundingClientRect();
     effect.style.position = "fixed";
     effect.style.left = rect.left + rect.width / 2 + "px";
-    effect.style.top = rect.top - 20 + "px"; // чуть выше кнопки
+    effect.style.top = rect.top - 20 + "px";
     effect.style.transform = "translateX(-50%)";
     effect.style.pointerEvents = "none";
     effect.style.color = "white";
@@ -159,24 +211,23 @@ function showPriceEffect(btn, price) {
     effect.style.fontSize = "16px";
     effect.style.transition = "all 0.8s ease-out";
     effect.style.opacity = "1";
-    effect.style.zIndex = "999"; // поверх всего
+    effect.style.zIndex = "999";
 
-    document.body.appendChild(effect); // добавляем в body
+    document.body.appendChild(effect);
 
-    // анимация
     setTimeout(() => {
         effect.style.top = rect.top - 40 + "px";
         effect.style.opacity = "0";
     }, 50);
 
-    // удаляем после анимации
     setTimeout(() => {
         document.body.removeChild(effect);
     }, 850);
 }
 
-
-// --- ВЕРХНИЙ БЛОК: генерация кнопок продуктов ---
+// ───────────────────────────────────────────────
+// ГЕНЕРАЦИЯ КНОПОК ПРОДУКТОВ
+// ───────────────────────────────────────────────
 products.forEach(p => {
     const btn = document.createElement("button");
     btn.className = "product-btn";
@@ -203,6 +254,8 @@ products.forEach(p => {
         cart[name] = cart[name] || { qty: 0, price: price };
         cart[name].qty++;
 
+        saveCart(); // ← сохраняем
+
         const countEl = btn.querySelector(".count");
         countEl.textContent = cart[name].qty;
         countEl.style.display = "flex";
@@ -216,201 +269,108 @@ products.forEach(p => {
     });
 });
 
+// ───────────────────────────────────────────────
+// ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ КНОПОК ИЗ КОРЗИНЫ
+// ───────────────────────────────────────────────
+Object.keys(cart).forEach(name => {
+    const btn = document.querySelector(`.product-btn[data-name="${name}"]`);
+    if (btn) {
+        const countEl = btn.querySelector(".count");
+        countEl.textContent = cart[name].qty;
+        countEl.style.display = "flex";
+    }
+});
+updateTotal();
+updateList();
 
-
-// Магическая кнопка на зелёной кнопке
+// ───────────────────────────────────────────────
+// КНОПКА TOTAL — магическая анимация
+// ───────────────────────────────────────────────
 totalEl.addEventListener("click", () => {
     vibrate();
-
-    // Если корзина пуста, просто мигает и прыгает
     const productButtons = document.querySelectorAll(".product-btn");
-    productButtons.forEach(btn => {
-        btn.classList.add("magic"); // добавляем класс
-    });
-
-    // Убираем класс через 1 секунду
+    productButtons.forEach(btn => btn.classList.add("magic"));
     setTimeout(() => {
         productButtons.forEach(btn => btn.classList.remove("magic"));
     }, 1000);
 });
 
-
-function updateTotal() {
-    let sum = 0;
-    for (let key in cart) sum += cart[key].qty * cart[key].price;
-    totalEl.textContent = sum.toFixed(2) + " €";
-}
-
-function updateList() {
-    cartList.innerHTML = ""; // очищаем
-
-    const keys = Object.keys(cart);
-    if (keys.length === 0) return;
-
-    keys.forEach(key => {
-        const item = cart[key];
-        const prod = products.find(p => p[0] === key);
-        let icon = iconsMap[key] || (prod ? prod[1] : "🛒");
-        const emojiOrImg = icon.endsWith(".png")
-            ? `<img src="${icon}" alt="${key}" style="width:24px;height:24px;">`
-            : icon;
-
-        const btnLower = document.createElement("button");
-        btnLower.className = "product-btn"; // та же кнопка
-        btnLower.dataset.name = key;
-        btnLower.dataset.price = item.price;
-
-        // фиксируем размер как у верхних
-        btnLower.style.flex = "0 0 60px";
-        btnLower.style.height = "60px";
-
-        btnLower.innerHTML = `
-            <div>${emojiOrImg}</div>
-            <div style="font-size:10px;">${key}</div>
-            <div class="count">${item.qty >= 2 ? item.qty : ""}</div>
-        `;
-
-        const countEl = btnLower.querySelector(".count");
-        countEl.style.display = item.qty >= 2 ? "flex" : "none";
-
-        btnLower.addEventListener("click", () => {
-            vibrate();
-            cart[key].qty--;
-            if (cart[key].qty <= 0) delete cart[key];
-
-            countEl.textContent = cart[key]?.qty || "";
-            countEl.style.display = cart[key]?.qty ? "flex" : "none";
-
-            updateTopButton(key);
-
-            // анимация клика
-            btnLower.classList.add("clicked");
-            setTimeout(() => btnLower.classList.remove("clicked"), 150);
-
-            updateTotal();
-            updateList();
-        });
-
-        cartList.appendChild(btnLower);
-    });
-
-    cartList.style.display = "flex";
-    cartList.style.flexWrap = "wrap";
-    cartList.style.justifyContent = "center";
-    cartList.style.gap = "8px";
-}
-
-// Кнопка RESET — красная, только иконка
+// ───────────────────────────────────────────────
+// КНОПКА RESET
+// ───────────────────────────────────────────────
 const resetBtn = document.getElementById("reset-btn");
-const iconSize = '24px';
+resetBtn.textContent = '';
 
-resetBtn.textContent = ''; // убираем текст кнопки полностью
+const binImg = document.createElement('img');
+binImg.src = 'static/icons/bin.png';
+binImg.alt = 'BIN';
+binImg.style.width = '28px';
+binImg.style.height = '28px';
+resetBtn.appendChild(binImg);
 
-const img = document.createElement('img');
-img.src = 'static/icons/bin.png';  // путь к твоей иконке
-img.alt = 'BIN';
-img.style.width = '28px';
-img.style.height = '28px';
-
-resetBtn.appendChild(img);  // вставляем иконку внутрь кнопки
-
-// Кнопка RESET — очищает корзину
 resetBtn.addEventListener("click", () => {
     vibrate();
-
     cart = {};
+    saveCart(); // ← сохраняем пустую корзину
+
     document.querySelectorAll(".product-btn .count").forEach(c => {
         c.textContent = "";
         c.style.display = "none";
     });
 
-    updateTotal(); // теперь при пустой корзине вернётся иконка
+    updateTotal();
     updateList();
 });
 
-// Обновляем total при изменении корзины
-function updateTotal() {
-    let sum = 0;
-    for (let key in cart) sum += cart[key].qty * cart[key].price;
-
-    // очищаем содержимое кнопки перед вставкой
-    totalEl.textContent = '';
-
-    if (sum > 0) {
-        totalEl.textContent = sum.toFixed(2) + " €"; // показываем цену
-    } else {
-        const euroImg = document.createElement('img');
-        euroImg.src = 'static/icons/euro.png';
-        euroImg.alt = 'EURO';
-        euroImg.style.width = '24px';
-        euroImg.style.height = '24px';
-        totalEl.appendChild(euroImg); // показываем иконку, если корзина пустая
-    }
-}
-
-
-
-// Кнопка NOTES — пока просто alert
+// ───────────────────────────────────────────────
+// КНОПКА NOTES
+// ───────────────────────────────────────────────
 const notesBtn = document.getElementById("notes-btn");
-notesBtn.textContent = ''; // убираем текст кнопки полностью
+notesBtn.textContent = '';
 
 const noteImg = document.createElement('img');
-noteImg.src = 'static/icons/note.png';  // путь к твоей иконке
+noteImg.src = 'static/icons/note.png';
 noteImg.alt = 'NOTE';
 noteImg.style.width = '24px';
 noteImg.style.height = '24px';
+notesBtn.appendChild(noteImg);
 
-notesBtn.appendChild(noteImg);  // вставляем иконку внутрь кнопки
+const notesModal = document.getElementById("notes-modal");
+const closeNotes = document.getElementById("close-notes");
+const saveNotes = document.getElementById("save-notes");
+const notesText = document.getElementById("notes-text");
+const clearNotes = document.getElementById("clear-notes");
 
-// Событие открытия модального окна остаётся прежним
+// Загружаем заметки из localStorage
+let savedNotes = localStorage.getItem("lidl_notes") || "";
+notesText.value = savedNotes;
+updateNotesIndicator();
+
+function updateNotesIndicator() {
+    if (savedNotes && savedNotes.trim().length > 0) {
+        notesBtn.classList.add("active-note");
+    } else {
+        notesBtn.classList.remove("active-note");
+    }
+}
+
 notesBtn.addEventListener("click", () => {
     vibrate();
     notesModal.style.display = "flex";
 });
 
-// модальные элементы
-const notesModal = document.getElementById("notes-modal");
-const closeNotes = document.getElementById("close-notes");
-const saveNotes = document.getElementById("save-notes");
-const notesText = document.getElementById("notes-text");
-
-// новая кнопка Очистить
-const clearNotes = document.getElementById("clear-notes");
-clearNotes.addEventListener("click", () => {
-    notesText.value = ""; // очищаем текст
-    notesText.focus();    // ставим курсор
-});
-
-
-// Переменная для хранения заметок
-let savedNotes = "";
-
-function updateNotesIndicator() {
-    console.log("savedNotes:", savedNotes);
-
-    if (savedNotes && savedNotes.trim().length > 0) {
-        notesBtn.classList.add("active-note");
-        console.log("Добавили класс");
-    } else {
-        notesBtn.classList.remove("active-note");
-        console.log("Убрали класс");
-    }
-}
-
-
-// Открыть окно
-notesBtn.addEventListener("click", () => {
-    notesModal.style.display = "flex";
-});
-
-// Закрыть окно
 closeNotes.addEventListener("click", () => {
     notesModal.style.display = "none";
 });
 
-// Сохранить текст без подтверждения
 saveNotes.addEventListener("click", () => {
     savedNotes = notesText.value;
+    localStorage.setItem("lidl_notes", savedNotes); // ← сохраняем заметки
     notesModal.style.display = "none";
     updateNotesIndicator();
+});
+
+clearNotes.addEventListener("click", () => {
+    notesText.value = "";
+    notesText.focus();
 });
