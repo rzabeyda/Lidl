@@ -25,17 +25,17 @@ const catalogProducts = [
     ["помидоры","🍅",1.5],  ["перец","🫑",2.0],    ["апельсины","🍊",1.8],
     ["клубника","🍓",2.5],  ["виноград","🍇",2.5],  ["груши","🍐",1.5],
     ["шоколад","🍫",1.8],   ["кофе","☕",3.5],      ["йогурт","🍶",0.85],
-    ["сок","🧃",1.5],       ["вода","💧",0.5],      ["майонез","🫙",2.0],
+    ["сок","🧃",1.5],       ["вода","💧",0.5],      ["майонез","🥚",2.0],
     ["грибы","🍄",2.0],     ["авокадо","🥑",1.5],  ["зелень","🌿",0.5],
-    ["паста","🦷",2.0],     ["шампунь","🚿",3.5],  ["фольга","📦",1.5],
-    ["пакеты","🛍️",0.35],  ["консервы","🥫",1.5], ["горчица","🌿",1.2],
-    ["чипсы","🥔",1.5],     ["конфеты","🍬",2.0],  ["рыба","🐠",3.5],
+    ["паста","🦷",2.0],     ["шампунь","🚿",3.5],  ["фольга","✨",1.5],
+    ["пакеты","🛍️",0.35],  ["консервы","🥫",1.5], ["горчица","🌭",1.2],
+    ["чипсы","🥨",1.5],     ["конфеты","🍬",2.0],  ["рыба","🐠",3.5],
     ["лимон","🍋",0.5],     ["брокколи","🥦",1.8], ["арбуз","🍉",2.5],
     ["персики","🍑",2.5],   ["черника","🫐",3.0],  ["малина","🍓",3.0],
-    ["мёд","🍯",4.0],       ["джем","🫙",2.5],     ["семечки","🌻",1.0],
+    ["мёд","🍯",4.0],       ["джем","🍓",2.5],     ["семечки","🌻",1.0],
     ["попкорн","🍿",1.5],   ["вафли","🧇",1.5],    ["батончики","🍫",1.0],
     ["томатка","🥫",0.8],   ["горошек","🫛",0.8],  ["кукуруза","🌽",0.8],
-    ["оливки","🫒",2.0],    ["баклажан","🍆",1.5], ["редиска","🌱",0.6],
+    ["оливки","🫒",2.0],    ["баклажан","🍆",1.5], ["редиска","🔴",0.6],
     ["сухофрукты","🍇",3.0],["варенье","🍓",2.0],  ["пиво","🍺",1.5],
     ["вино","🍷",4.0],      ["бульон","🍜",1.0],   ["зефир","🍡",1.5],
     ["крем","🧴",3.0],      ["кабачок","🥒",1.2],
@@ -228,6 +228,7 @@ modal.innerHTML=
 +'<button id="save-prices" style="flex:2;padding:13px;border-radius:14px;background:#fff;color:#000;border:none;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:.3px;">Сохранить</button>'
 +'<button id="reset-prices" style="flex:1;padding:13px;border-radius:14px;background:#1a1a1a;color:#888;border:1px solid #2a2a2a;font-size:13px;cursor:pointer;">Сбросить</button>'
 +'</div>'
++'<button id="close-prices-btn" style="margin-top:8px;flex-shrink:0;width:100%;padding:13px;border-radius:14px;background:#1a0a0a;color:#ff5555;border:1px solid #3a1a1a;font-size:14px;font-weight:700;cursor:pointer;">✕ Закрыть</button>'
 +'</div>'
 
 // ── ДОБАВИТЬ ──
@@ -241,6 +242,7 @@ modal.innerHTML=
 +'<div id="sub-catalog" style="overflow-y:auto;flex:1;flex-direction:column;">'
 +'<div style="font-size:11px;color:#444;margin-bottom:10px;">Нажми — и данные заполнятся в форме «Своё»</div>'
 +'<div id="catalog-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;"></div>'
++'<button id="close-catalog-btn" style="margin-top:12px;flex-shrink:0;width:100%;padding:13px;border-radius:14px;background:#1a0a0a;color:#ff5555;border:1px solid #3a1a1a;font-size:14px;font-weight:700;cursor:pointer;">✕ Закрыть</button>'
 +'</div>'
 
 // Своё
@@ -264,6 +266,7 @@ modal.innerHTML=
 +'<select id="new-position" style="width:100%;padding:10px 12px;font-size:12px;outline:none;box-sizing:border-box;"></select></div>'
 +'<div id="add-error" style="color:#ff5555;font-size:12px;margin-bottom:8px;display:none;padding:8px 12px;background:#1a0808;border-radius:10px;border:1px solid #3a1010;"></div>'
 +'<button id="do-add" style="width:100%;padding:13px;border-radius:14px;background:#fff;color:#000;border:none;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.3px;">Добавить товар</button>'
++'<button id="close-add-custom-btn" style="margin-top:8px;width:100%;padding:13px;border-radius:14px;background:#1a0a0a;color:#ff5555;border:1px solid #3a1a1a;font-size:14px;font-weight:700;cursor:pointer;">✕ Закрыть</button>'
 +'</div>'
 +'</div>'
 
@@ -275,6 +278,7 @@ modal.innerHTML=
 +'<button id="save-order" style="flex:2;padding:13px;border-radius:14px;background:#fff;color:#000;border:none;font-size:14px;font-weight:800;cursor:pointer;">Сохранить</button>'
 +'<button id="reset-order" style="flex:1;padding:13px;border-radius:14px;background:#1a1a1a;color:#888;border:1px solid #2a2a2a;font-size:13px;cursor:pointer;">Сбросить</button>'
 +'</div>'
++'<button id="close-order-btn" style="margin-top:8px;flex-shrink:0;width:100%;padding:13px;border-radius:14px;background:#1a0a0a;color:#ff5555;border:1px solid #3a1a1a;font-size:14px;font-weight:700;cursor:pointer;">✕ Закрыть</button>'
 +'</div>'
 
 +'</div>';
@@ -282,6 +286,9 @@ document.body.appendChild(modal);
 
 modal.addEventListener("click",e=>{ if(e.target===modal) modal.style.display="none"; });
 document.getElementById("pm-close").addEventListener("click",()=>{ modal.style.display="none"; });
+["close-prices-btn","close-catalog-btn","close-add-custom-btn","close-order-btn"].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.addEventListener("click",()=>{ modal.style.display="none"; });
+});
 
 // ─── Вкладки ───────────────────────────────────────────────────────────────
 const tabDefs=[{tab:"tab-prices",panel:"panel-prices"},{tab:"tab-add",panel:"panel-add"},{tab:"tab-order",panel:"panel-order"}];
