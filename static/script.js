@@ -51,7 +51,27 @@ const catalogProducts = [
     ["томатка","🥫",0.8],   ["горошек","🫛",0.8],   ["кукуруза","🌽",0.8],
     ["оливки","🫒",2.0],    ["попкорн","🍿",1.5],   ["сухари","🍞",1.0],
     ["вафли","🧇",1.5],     ["батончики","🍫",1.0], ["энергетик","⚡",1.8],
-    ["протеин","💪",15.0],  ["витамины","💊",5.0],  ["батарейки","🔋",3.0]
+    ["протеин","💪",15.0],  ["витамины","💊",5.0],  ["батарейки","🔋",3.0],
+    // из стартового набора (для восстановления)
+    ["бананы","🍌",1.2],   ["яблоки","🍎",2.0],    ["огурцы","🥒",2.2],
+    ["морковь","🥕",0.4],  ["капуста","🥬",0.5],   ["картошка","🥔",0.5],
+    ["лук","🧅",0.35],     ["чеснок","🧄",2.0],    ["тунец","🐟",1.0],
+    ["чай","🍵",0.25],     ["хлебцы","🍞",2.5],    ["орехи","🥜",2.5],
+    ["печенье","🍪",2.2],  ["мясо","🥩",5.0],      ["фарш","🍖",2.0],
+    ["курка","🍗",2.4],    ["яйца","🥚",2.0],      ["сосиски","🌭",1.3],
+    ["колбаса","🥓",3.0],  ["сыр","🧀",3.0],       ["творожки","🥞",0.29],
+    ["творог","🥛",1.0],   ["сметана","🫙",1.0],   ["масло","🧈",0.85],
+    ["молоко","🍶",1.0],   ["кефир","🍶",1.0],     ["морожне","🍦",0.65],
+    ["пельмени","🥟",2.7], ["палочки","🐟",1.6],   ["фри","🍟",2.0],
+    ["уксус","🍶",0.9],    ["сливки","🥛",0.35],   ["сахар","🍬",0.8],
+    ["мука","🌾",1.0],     ["подсол","🌻",2.0],    ["макарики","🍝",1.0],
+    ["гречка","🍲",1.5],   ["рис","🍚",3.0],       ["овсянка","🥣",0.2],
+    ["специи","🧄",2.0],   ["кетчуп","🍅",4.0],    ["хрен","🫚",0.85],
+    ["соевка","🥢",1.0],   ["фейри","🧴",1.5],     ["губки","🧽",1.0],
+    ["унитазка","🚽",2.0], ["тряпки","🧹",1.0],    ["песок","🐱",5.0],
+    ["мыло","🧼",2.5],     ["дезик","🧴",2.0],     ["душгель","🛀",2.5],
+    ["порошок","🧴",4.0],  ["мочалка","🧽",0.5],   ["туалетка","🧻",1.7],
+    ["бумага","🧻",2.2]
 ];
 
 const iconsMap = {
@@ -518,7 +538,7 @@ navStyle.textContent=`
 #bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(5,5,5,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.05);padding:4px 0 calc(4px + env(safe-area-inset-bottom,0px));display:flex;}
 .nav-btn{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px 0;-webkit-tap-highlight-color:transparent;transition:transform .12s;}
 .nav-btn:active{transform:scale(.88);}
-.nav-icon{width:38px;height:38px;border-radius:12px;background:#222;border:1px solid #333;display:flex;align-items:center;justify-content:center;transition:background .15s,box-shadow .15s,border-color .15s;}
+.nav-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
 .nav-lbl{font-size:10px;font-weight:700;letter-spacing:.4px;color:#fff;transition:color .15s;text-transform:uppercase;}
 .nav-btn.flash .nav-icon{animation:navFlash .35s ease-out forwards;}
 @keyframes navFlash{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
@@ -536,7 +556,7 @@ const navItems=[
 navItems.forEach(({icon,label,tab,bg,glow,col})=>{
     const btn=document.createElement("button"); btn.className="nav-btn";
     const ic=document.createElement("div"); ic.className="nav-icon";
-    const img=document.createElement("img"); img.src=icon; img.style.cssText="width:22px;height:22px;object-fit:contain;";
+    const img=document.createElement("img"); img.src=icon; img.style.cssText="width:30px;height:30px;object-fit:contain;";
     ic.appendChild(img);
     const lb=document.createElement("div"); lb.className="nav-lbl"; lb.textContent=label;
     btn.appendChild(ic); btn.appendChild(lb);
