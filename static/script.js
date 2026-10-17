@@ -518,7 +518,7 @@ navStyle.textContent=`
 #bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(5,5,5,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.05);padding:4px 0 calc(4px + env(safe-area-inset-bottom,0px));display:flex;}
 .nav-btn{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px 0;-webkit-tap-highlight-color:transparent;transition:transform .12s;}
 .nav-btn:active{transform:scale(.88);}
-.nav-icon{width:34px;height:34px;border-radius:10px;background:#222;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:18px;transition:background .15s,box-shadow .15s,border-color .15s;color:#fff;}
+.nav-icon{width:38px;height:38px;border-radius:12px;background:#222;border:1px solid #333;display:flex;align-items:center;justify-content:center;transition:background .15s,box-shadow .15s,border-color .15s;}
 .nav-lbl{font-size:10px;font-weight:700;letter-spacing:.4px;color:#fff;transition:color .15s;text-transform:uppercase;}
 .nav-btn.flash .nav-icon{animation:navFlash .35s ease-out forwards;}
 @keyframes navFlash{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
@@ -529,13 +529,15 @@ const nav=document.createElement("div");
 nav.id="bottom-nav";
 
 const navItems=[
-    {emoji:"＋", label:"Добавить", tab:"tab-add",    bg:"rgba(96,165,250,.12)", glow:"rgba(96,165,250,.4)",  col:"#60a5fa"},
-    {emoji:"↕",  label:"Двигать",  tab:"tab-order",  bg:"rgba(74,222,128,.12)", glow:"rgba(74,222,128,.4)",  col:"#4ade80"},
-    {emoji:"－",  label:"Удалить",  tab:"tab-prices", bg:"rgba(239,68,68,.12)",  glow:"rgba(239,68,68,.4)",   col:"#ef4444"},
+    {icon:"static/icons/add.png", label:"Добавить", tab:"tab-add",    bg:"rgba(96,165,250,.12)", glow:"rgba(96,165,250,.4)",  col:"#60a5fa"},
+    {icon:"static/icons/move.png", label:"Двигать",  tab:"tab-order",  bg:"rgba(74,222,128,.12)", glow:"rgba(74,222,128,.4)",  col:"#4ade80"},
+    {icon:"static/icons/del.png",  label:"Удалить",  tab:"tab-prices", bg:"rgba(239,68,68,.12)",  glow:"rgba(239,68,68,.4)",   col:"#ef4444"},
 ];
-navItems.forEach(({emoji,label,tab,bg,glow,col})=>{
+navItems.forEach(({icon,label,tab,bg,glow,col})=>{
     const btn=document.createElement("button"); btn.className="nav-btn";
-    const ic=document.createElement("div"); ic.className="nav-icon"; ic.textContent=emoji;
+    const ic=document.createElement("div"); ic.className="nav-icon";
+    const img=document.createElement("img"); img.src=icon; img.style.cssText="width:22px;height:22px;object-fit:contain;";
+    ic.appendChild(img);
     const lb=document.createElement("div"); lb.className="nav-lbl"; lb.textContent=label;
     btn.appendChild(ic); btn.appendChild(lb);
     btn.addEventListener("touchstart",()=>{
