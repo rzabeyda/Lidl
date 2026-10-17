@@ -268,8 +268,9 @@ body {
 /* Цвета кнопок */
 .red-btn { background: #dc3545; }
 .green-btn {
-    background: #007bff;
-    font-size: 18px;
+    background: #111;
+    font-size: 22px;
+    border: 1px solid #2a2a2a;
 }
 .yellow-btn { background: #ffc107; color: white; } /* теперь белый текст вместо чёрного */
 
