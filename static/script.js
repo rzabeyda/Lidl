@@ -492,31 +492,46 @@ container.addEventListener("touchmove",()=>{ clearTimeout(longPressTimer); },{pa
 // ═══════════════════════════════════════════════════════════════════════════
 // НИЖНЯЯ НАВИГАЦИЯ
 // ═══════════════════════════════════════════════════════════════════════════
+// ── Нижняя навигация ────────────────────────────────────────────────────────
+const navStyle=document.createElement("style");
+navStyle.textContent=`
+#bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(5,5,5,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.05);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));display:flex;}
+.nav-btn{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;-webkit-tap-highlight-color:transparent;transition:transform .12s;}
+.nav-btn:active{transform:scale(.88);}
+.nav-icon{width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;transition:background .15s,box-shadow .15s;}
+.nav-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;color:#3a3a3a;transition:color .15s;text-transform:uppercase;}
+.nav-btn.flash .nav-icon{animation:navFlash .35s ease-out forwards;}
+@keyframes navFlash{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+`;
+document.head.appendChild(navStyle);
+
 const nav=document.createElement("div");
-nav.style.cssText="position:fixed;bottom:0;left:0;right:0;background:#080808;border-top:1px solid #161616;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;z-index:900;";
+nav.id="bottom-nav";
 
 const navItems=[
-    {icon:"＋",label:"Добавить",  tab:"tab-add",   color:"#60a5fa"},
-    {icon:"↕", label:"Двигать",   tab:"tab-order", color:"#4ade80"},
-    {icon:"－",label:"Удалить",   tab:"tab-prices",color:"#ef4444"},
+    {emoji:"＋", label:"Добавить", tab:"tab-add",    bg:"rgba(96,165,250,.12)", glow:"rgba(96,165,250,.4)",  col:"#60a5fa"},
+    {emoji:"↕",  label:"Двигать",  tab:"tab-order",  bg:"rgba(74,222,128,.12)", glow:"rgba(74,222,128,.4)",  col:"#4ade80"},
+    {emoji:"－",  label:"Удалить",  tab:"tab-prices", bg:"rgba(239,68,68,.12)",  glow:"rgba(239,68,68,.4)",   col:"#ef4444"},
 ];
-navItems.forEach(({icon,label,tab,color})=>{
-    const b=document.createElement("button");
-    b.style.cssText="flex:1;padding:0 4px 9px;border-radius:16px;border:1px solid #181818;background:#101010;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;transition:transform .1s;";
-    const iconBox=document.createElement("div");
-    iconBox.style.cssText="width:44px;height:44px;border-radius:14px;background:#161616;border:1px solid #1e1e1e;display:flex;align-items:center;justify-content:center;font-size:22px;transition:box-shadow .15s,border-color .15s;";
-    iconBox.textContent=icon;
-    const lbl=document.createElement("div");
-    lbl.style.cssText="font-size:10px;font-weight:700;color:#555;letter-spacing:.4px;";
-    lbl.textContent=label;
-    b.appendChild(iconBox); b.appendChild(lbl);
-    b.addEventListener("touchstart",()=>{ b.style.transform="scale(.93)"; iconBox.style.boxShadow="0 0 16px "+color+"55"; iconBox.style.borderColor=color+"44"; lbl.style.color=color; },{passive:true});
-    b.addEventListener("touchend",()=>{ b.style.transform="scale(1)"; iconBox.style.boxShadow="none"; iconBox.style.borderColor="#1e1e1e"; lbl.style.color="#555"; },{passive:true});
-    b.addEventListener("click",()=>{ vibrate(); openModal(tab); });
-    nav.appendChild(b);
+navItems.forEach(({emoji,label,tab,bg,glow,col})=>{
+    const btn=document.createElement("button"); btn.className="nav-btn";
+    const ic=document.createElement("div"); ic.className="nav-icon"; ic.textContent=emoji;
+    const lb=document.createElement("div"); lb.className="nav-lbl"; lb.textContent=label;
+    btn.appendChild(ic); btn.appendChild(lb);
+    btn.addEventListener("touchstart",()=>{
+        ic.style.background=bg; ic.style.boxShadow="0 0 20px "+glow; lb.style.color=col;
+    },{passive:true});
+    btn.addEventListener("touchend",()=>{
+        setTimeout(()=>{ ic.style.background="none"; ic.style.boxShadow="none"; lb.style.color="#3a3a3a"; },200);
+    },{passive:true});
+    btn.addEventListener("click",()=>{
+        vibrate(); btn.classList.add("flash"); setTimeout(()=>btn.classList.remove("flash"),400);
+        openModal(tab);
+    });
+    nav.appendChild(btn);
 });
 document.body.appendChild(nav);
-document.querySelector(".container").style.paddingBottom="90px";
+document.querySelector(".container").style.paddingBottom="88px";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // RESET / NOTES
