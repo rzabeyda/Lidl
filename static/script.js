@@ -409,7 +409,7 @@ function openModal(tab){
             +'<span style="flex:1;font-size:13px;color:#ccc;">'+p[0]+(p[3]?' <span style="font-size:9px;color:#60a5fa;">❆</span>':'')+'</span>'
             +'<input type="number" step="0.01" min="0" value="'+p[2]+'" data-name="'+p[0]+'" style="width:58px;padding:5px 6px;text-align:right;font-size:13px;">'
             +'<span style="font-size:12px;color:#555;">€</span>'
-            +(p[3]?'<button data-del="'+p[0]+'" style="background:none;border:none;font-size:15px;cursor:pointer;color:#ef4444;padding:0 3px;">🗑</button>':'<span style="width:22px;"></span>');
+            +'<button data-del="'+p[0]+'" style="background:none;border:none;font-size:15px;cursor:pointer;color:#ef4444;padding:0 3px;">🗑</button>';
         list.appendChild(row);
     });
     list.querySelectorAll("[data-del]").forEach(btn=>{
