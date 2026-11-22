@@ -145,8 +145,7 @@ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==
 function updateTotal(){
     let sum=0; for(let k in cart) sum+=cart[k].qty*cart[k].price;
     totalEl.textContent="";
-    if(sum>0){ totalEl.textContent=sum.toFixed(2)+" €"; }
-    else{ const img=document.createElement("img"); img.src="static/icons/euro.png"; img.alt="EURO"; img.style.cssText="width:24px;height:24px;"; totalEl.appendChild(img); }
+    totalEl.textContent=sum>0?sum.toFixed(2)+" €":"0 €";
 }
 function updateList(){
     cartList.innerHTML=""; const keys=Object.keys(cart);
