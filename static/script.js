@@ -154,8 +154,8 @@ function updateList(){
     keys.forEach(key=>{
         const item=cart[key], prod=products.find(p=>p[0]===key);
         const btn=document.createElement("button"); btn.className="product-btn";
-        btn.dataset.name=key; btn.dataset.price=item.price; btn.style.cssText="flex:0 0 60px;height:60px;";
-        btn.innerHTML='<div>'+getIconHtml(key,prod?prod[1]:"🛒")+'</div><div style="font-size:10px;">'+key+'</div><div class="count">'+(item.qty>=2?item.qty:"")+'</div>';
+        btn.dataset.name=key; btn.dataset.price=item.price; btn.style.cssText="flex:0 0 74px;height:72px;";
+        btn.innerHTML='<div>'+getIconHtml(key,prod?prod[1]:"🛒")+'</div><div style="font-size:10px;line-height:1.1;">'+key+'</div><div style="font-size:9px;color:#888;line-height:1;">'+item.price.toFixed(2)+'€</div><div class="count">'+(item.qty>=2?item.qty:"")+'</div>';
         const c=btn.querySelector(".count"); c.style.display=item.qty>=2?"flex":"none";
         btn.addEventListener("click",()=>{ vibrate(); cart[key].qty--; if(cart[key].qty<=0) delete cart[key]; saveCart(); updateTopButton(key); updateTotal(); updateList(); });
         cartList.appendChild(btn);
