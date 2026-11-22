@@ -25,14 +25,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     # Отправка фото + текста + кнопки
-    photo_path = "duck1.jpg"
+    photo_path = "mango.jpg"
     if not os.path.exists(photo_path):
         await update.message.reply_text("Ошибка: картинка не найдена на сервере.")
         return
 
     with open(photo_path, "rb") as photo_file:
         await update.message.reply_photo(
-            photo=InputFile(photo_file, filename="duck_fresh.jpg"),
+            photo=InputFile(photo_file, filename="mango.jpg"),
             caption=text,
             reply_markup=reply_markup
         )

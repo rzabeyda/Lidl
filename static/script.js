@@ -533,14 +533,6 @@ container.addEventListener("touchmove",()=>{ clearTimeout(longPressTimer); },{pa
 // НИЖНЯЯ НАВИГАЦИЯ
 // ═══════════════════════════════════════════════════════════════════════════
 // ── Нижняя навигация ────────────────────────────────────────────────────────
-// Плавающая кнопка "+" для открытия меню
-const fab=document.createElement("button");
-fab.id="fab-add";
-fab.style.cssText="position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:16px;z-index:900;width:52px;height:52px;border-radius:50%;background:#1a1a1a;border:1px solid #333;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.6);-webkit-tap-highlight-color:transparent;";
-fab.innerHTML='<img src="static/icons/add.png" style="width:28px;height:28px;object-fit:contain;">';
-fab.addEventListener("click",()=>{ vibrate(); openModal("tab-add"); });
-document.body.appendChild(fab);
-
 // Картмодал — список выбранных товаров
 const cartModal=document.createElement("div");
 cartModal.id="cart-modal";
