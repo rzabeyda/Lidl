@@ -178,7 +178,7 @@ function showPriceEffect(btn,price){
 function buildProductButton(p){
     const btn=document.createElement("button"); btn.className="product-btn";
     btn.dataset.name=p[0]; btn.dataset.price=p[2];
-    btn.innerHTML='<div>'+getIconHtml(p[0],p[1])+'</div><div style="font-size:10px;">'+p[0]+'</div><div class="count"></div>';
+    btn.innerHTML='<div>'+getIconHtml(p[0],p[1])+'</div><div style="font-size:10px;line-height:1.1;">'+p[0]+'</div><div style="font-size:9px;color:#888;line-height:1;">'+p[2].toFixed(2)+'€</div><div class="count"></div>';
     btn.addEventListener("click",()=>{
         vibrate(); const name=btn.dataset.name, price=parseFloat(btn.dataset.price);
         cart[name]=cart[name]||{qty:0,price}; cart[name].qty++; saveCart();
@@ -533,47 +533,56 @@ container.addEventListener("touchmove",()=>{ clearTimeout(longPressTimer); },{pa
 // НИЖНЯЯ НАВИГАЦИЯ
 // ═══════════════════════════════════════════════════════════════════════════
 // ── Нижняя навигация ────────────────────────────────────────────────────────
-const navStyle=document.createElement("style");
-navStyle.textContent=`
-#bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(5,5,5,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.05);padding:4px 0 calc(4px + env(safe-area-inset-bottom,0px));display:flex;}
-.nav-btn{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px 0;-webkit-tap-highlight-color:transparent;transition:transform .12s;}
-.nav-btn:active{transform:scale(.88);}
-.nav-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
-.nav-lbl{font-size:10px;font-weight:700;letter-spacing:.4px;color:#fff;transition:color .15s;text-transform:uppercase;}
-.nav-btn.flash .nav-icon{animation:navFlash .35s ease-out forwards;}
-@keyframes navFlash{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
-`;
-document.head.appendChild(navStyle);
+// Плавающая кнопка "+" для открытия меню
+const fab=document.createElement("button");
+fab.id="fab-add";
+fab.style.cssText="position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:16px;z-index:900;width:52px;height:52px;border-radius:50%;background:#1a1a1a;border:1px solid #333;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.6);-webkit-tap-highlight-color:transparent;";
+fab.innerHTML='<img src="static/icons/add.png" style="width:28px;height:28px;object-fit:contain;">';
+fab.addEventListener("click",()=>{ vibrate(); openModal("tab-add"); });
+document.body.appendChild(fab);
 
-const nav=document.createElement("div");
-nav.id="bottom-nav";
+// Картмодал — список выбранных товаров
+const cartModal=document.createElement("div");
+cartModal.id="cart-modal";
+cartModal.style.cssText="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1100;align-items:flex-end;justify-content:center;";
+cartModal.innerHTML='<div style="width:100%;max-width:480px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;border-radius:22px 22px 0 0;background:#0a0a0a;border-top:1px solid #1e1e1e;padding:0 0 24px;">'
+    +'<div style="display:flex;align-items:center;padding:14px 16px 0;flex-shrink:0;">'
+    +'<div style="flex:1;font-size:15px;font-weight:700;color:#fff;">🛒 Корзина</div>'
+    +'<button id="cart-modal-edit" style="background:#1a1a1a;border:1px solid #2a2a2a;color:#888;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer;margin-right:8px;">✏️ Изменить</button>'
+    +'<button id="cart-modal-close" style="width:28px;height:28px;border-radius:50%;background:#1a1a1a;border:1px solid #2a2a2a;color:#888;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>'
+    +'</div>'
+    +'<div id="cart-modal-list" style="overflow-y:auto;flex:1;padding:12px 16px 0;"></div>'
+    +'<div id="cart-modal-total" style="padding:12px 16px 0;border-top:1px solid #1a1a1a;margin-top:8px;flex-shrink:0;font-size:16px;font-weight:800;color:#fff;text-align:right;"></div>'
+    +'</div>';
+document.body.appendChild(cartModal);
+cartModal.addEventListener("click",e=>{ if(e.target===cartModal) cartModal.style.display="none"; });
+document.getElementById("cart-modal-close").addEventListener("click",()=>{ cartModal.style.display="none"; });
+document.getElementById("cart-modal-edit").addEventListener("click",()=>{ cartModal.style.display="none"; openModal("tab-prices"); });
 
-const navItems=[
-    {icon:"static/icons/add.png", label:"Добавить", tab:"tab-add",    bg:"rgba(96,165,250,.12)", glow:"rgba(96,165,250,.4)",  col:"#60a5fa"},
-    {icon:"static/icons/move.png", label:"Двигать",  tab:"tab-order",  bg:"rgba(74,222,128,.12)", glow:"rgba(74,222,128,.4)",  col:"#4ade80"},
-    {icon:"static/icons/del.png",  label:"Удалить",  tab:"tab-prices", bg:"rgba(239,68,68,.12)",  glow:"rgba(239,68,68,.4)",   col:"#ef4444"},
-];
-navItems.forEach(({icon,label,tab,bg,glow,col})=>{
-    const btn=document.createElement("button"); btn.className="nav-btn";
-    const ic=document.createElement("div"); ic.className="nav-icon";
-    const img=document.createElement("img"); img.src=icon; img.style.cssText="width:30px;height:30px;object-fit:contain;";
-    ic.appendChild(img);
-    const lb=document.createElement("div"); lb.className="nav-lbl"; lb.textContent=label;
-    btn.appendChild(ic); btn.appendChild(lb);
-    btn.addEventListener("touchstart",()=>{
-        ic.style.background=bg; ic.style.boxShadow="0 0 20px "+glow; lb.style.color=col;
-    },{passive:true});
-    btn.addEventListener("touchend",()=>{
-        setTimeout(()=>{ ic.style.background="none"; ic.style.boxShadow="none"; lb.style.color="#3a3a3a"; },200);
-    },{passive:true});
-    btn.addEventListener("click",()=>{
-        vibrate(); btn.classList.add("flash"); setTimeout(()=>btn.classList.remove("flash"),400);
-        openModal(tab);
-    });
-    nav.appendChild(btn);
-});
-document.body.appendChild(nav);
-document.querySelector(".container").style.paddingBottom="88px";
+function openCartModal(){
+    const keys=Object.keys(cart);
+    const list=document.getElementById("cart-modal-list");
+    list.innerHTML="";
+    if(!keys.length){ list.innerHTML='<div style="color:#444;font-size:14px;text-align:center;padding:20px;">Корзина пуста</div>'; }
+    else{
+        let total=0;
+        keys.forEach(key=>{
+            const item=cart[key]; const prod=products.find(p=>p[0]===key);
+            const sub=item.qty*item.price; total+=sub;
+            const row=document.createElement("div");
+            row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #111;";
+            row.innerHTML='<div style="width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">'+getIconHtml(key,prod?prod[1]:"🛒","24px")+'</div>'
+                +'<span style="flex:1;font-size:14px;color:#ccc;">'+key+'</span>'
+                +'<span style="font-size:12px;color:#666;">×'+item.qty+'</span>'
+                +'<span style="font-size:14px;font-weight:700;color:#fff;min-width:52px;text-align:right;">'+sub.toFixed(2)+'€</span>';
+            list.appendChild(row);
+        });
+        document.getElementById("cart-modal-total").textContent="Итого: "+total.toFixed(2)+" €";
+    }
+    cartModal.style.display="flex";
+}
+
+totalEl.addEventListener("click",()=>{ vibrate(); openCartModal(); });
 
 // ═══════════════════════════════════════════════════════════════════════════
 // RESET / NOTES
