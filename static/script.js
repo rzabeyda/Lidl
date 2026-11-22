@@ -178,7 +178,7 @@ function showPriceEffect(btn,price){
 function buildProductButton(p){
     const btn=document.createElement("button"); btn.className="product-btn";
     btn.dataset.name=p[0]; btn.dataset.price=p[2];
-    btn.innerHTML='<div>'+getIconHtml(p[0],p[1])+'</div><div style="font-size:10px;line-height:1.1;margin-top:-3px;">'+p[0]+'</div><div style="font-size:9px;color:#888;line-height:1;">'+p[2].toFixed(2)+'€</div><div class="count"></div>';
+    btn.innerHTML='<div>'+getIconHtml(p[0],p[1])+'</div><div style="font-size:10px;line-height:1.1;margin-top:-3px;">'+p[0]+'</div><div style="font-size:9px;color:#888;line-height:1;margin-top:2px;">'+p[2].toFixed(2)+'€</div><div class="count"></div>';
     btn.addEventListener("click",()=>{
         vibrate(); const name=btn.dataset.name, price=parseFloat(btn.dataset.price);
         cart[name]=cart[name]||{qty:0,price}; cart[name].qty++; saveCart();
